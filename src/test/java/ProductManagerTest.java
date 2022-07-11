@@ -13,18 +13,20 @@ public class ProductManagerTest {
     Product item4 = new Smartphone(4, "Galaxy A13", 20_200, "Samsung");
     Product item5 = new Smartphone(5, "P Smart 2021", 25_200, "Huawei");
     Product item6 = new Smartphone(6, "Redmi Note 11", 27_200, "Xiaomi");
+    ProductRepository repo = new ProductRepository();
+    ProductManager manager = new ProductManager(repo);
 
     @Test
     public void shouldAllProducts() {
-        ProductManager manager = new ProductManager(new ProductRepository());
-        manager.save(item1);
-        manager.save(item2);
-        manager.save(item3);
-        manager.save(item4);
-        manager.save(item5);
-        manager.save(item6);
 
-        Product[] expected = {item1, item2, item3,item4,item5,item6};
+        manager.add(item1);
+        manager.add(item2);
+        manager.add(item3);
+        manager.add(item4);
+        manager.add(item5);
+        manager.add(item6);
+
+        Product[] expected = {item1, item2, item3, item4, item5, item6};
         Product[] actual = manager.findAll();
 
         Assertions.assertArrayEquals(expected, actual);
@@ -32,10 +34,10 @@ public class ProductManagerTest {
 
     @Test
     public void shouldAllProductsAndRemove() {
-        ProductManager manager = new ProductManager(new ProductRepository());
-        manager.save(item1);
-        manager.save(item2);
-        manager.save(item3);
+
+        manager.add(item1);
+        manager.add(item2);
+        manager.add(item3);
         manager.removeById(item2.getId());
 
         Product[] expected = {item1, item3};
@@ -46,52 +48,55 @@ public class ProductManagerTest {
 
     @Test
     public void shouldSearchBy() {
-        ProductManager manager = new ProductManager(new ProductRepository());
-        manager.save(item1);
-        manager.save(item2);
-        manager.save(item3);
-        manager.save(item4);
-        manager.save(item5);
-        manager.save(item6);
+
+        manager.add(item1);
+        manager.add(item2);
+        manager.add(item3);
+        manager.add(item4);
+        manager.add(item5);
+        manager.add(item6);
         Product[] expected = {item3};
         Product[] actual = manager.searchBy("Идиот");
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
     @Test
     public void shouldNotSearchBy() {
-        ProductManager manager = new ProductManager(new ProductRepository());
+
 
         Product[] expected = {};
         Product[] actual = manager.searchBy("Идиот");
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
     @Test
-    public void shouldSearchedNotPresent () {
-        ProductManager manager = new ProductManager(new ProductRepository());
-        manager.save(item1);
-        manager.save(item2);
-        manager.save(item3);
-        manager.save(item4);
-        manager.save(item5);
-        manager.save(item6);
-        Product [] expected = {};
-        Product [] actual = manager.searchBy("Осень");
+    public void shouldSearchedNotPresent() {
+
+        manager.add(item1);
+        manager.add(item2);
+        manager.add(item3);
+        manager.add(item4);
+        manager.add(item5);
+        manager.add(item6);
+        Product[] expected = {};
+        Product[] actual = manager.searchBy("Осень");
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
     @Test
-    public void shouldSearched () {
-        ProductManager manager = new ProductManager(new ProductRepository());
-        manager.save(item4);
-        manager.save(item2);
-        manager.save(item3);
-        manager.save(item4);
-        manager.save(item5);
-        manager.save(item6);
-        Product [] expected = {item4,item4};
-        Product [] actual = manager.searchBy("Galaxy A13");
+    public void shouldSearched() {
+
+        manager.add(item4);
+        manager.add(item2);
+        manager.add(item3);
+        manager.add(item4);
+        manager.add(item5);
+        manager.add(item6);
+        Product[] expected = {item4, item4};
+        Product[] actual = manager.searchBy("Galaxy A13");
 
         Assertions.assertArrayEquals(expected, actual);
     }

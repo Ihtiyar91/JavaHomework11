@@ -10,8 +10,8 @@ public class ProductManager {
         this.repo = repo;
     }
 
-    public void save(Product productAdd) {
-        repo.save(productAdd);
+    public void add(Product products) {
+        repo.add(products);
     }
 
     public Product[] findAll() {
@@ -38,6 +38,7 @@ public class ProductManager {
     }
 
     public boolean matches(Product product, String search) {
+
         return product.getName().contains(search);
     }
 }
